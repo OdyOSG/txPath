@@ -41,3 +41,4 @@ vignettes/*.pdf
 
 # scratch folder
 scratch/
+.Rproj.user
