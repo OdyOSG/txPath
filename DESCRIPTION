@@ -26,6 +26,7 @@ Remotes:
   mi-erasmusmc/TreatmentPatterns
 Collate: 
     'analysis_settings.R'
+    'stratafication.R'
     'utils.R'
     'createTreatmentHistory.R'
     'drugUtilizationMod-package.R'

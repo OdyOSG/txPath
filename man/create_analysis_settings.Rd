@@ -23,6 +23,7 @@ create_analysis_settings(
   minCellMethod = "Remove",
   groupCombinations = 10,
   addNoPaths = FALSE,
+  strata = NULL,
   outputFolder
 )
 }
@@ -62,6 +63,8 @@ create_analysis_settings(
 \item{groupCombinations}{Select to group all non-fixed combinations in one category 'other’ in the sunburst plot}
 
 \item{addNoPaths}{Select to include untreated persons without treatment pathway in the sunburst plot}
+
+\item{strata}{a strata list object of stratification settings}
 
 \item{outputFolder}{the outputfolder to save data to csv}
 }
