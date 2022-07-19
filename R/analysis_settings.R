@@ -23,6 +23,7 @@
 #' @param minCellMethod Select to completely remove / sequentially adjust (by removing last step as often as necessary) treatment pathways below minCellCount
 #' @param groupCombinations Select to group all non-fixed combinations in one category 'other’ in the sunburst plot
 #' @param addNoPaths Select to include untreated persons without treatment pathway in the sunburst plot
+#' @param strata a strata list object of stratification settings
 #' @param outputFolder the outputfolder to save data to csv
 #' @return a DrugUtilizationAnalysisSettings object defining the treatment analysis
 #' @export
@@ -44,6 +45,7 @@ create_analysis_settings <- function(database,
                               minCellMethod = "Remove",
                               groupCombinations = 10,
                               addNoPaths = FALSE,
+                              strata = NULL,
                               outputFolder) {
 
   #argument checks
@@ -72,8 +74,6 @@ create_analysis_settings <- function(database,
                    includeTreatments = includeTreatments,
                    periodPriorToIndex = periodPriorToIndex,
                    minEraDuration = minEraDuration,
-                   # splitEventCohorts = splitEventCohorts,
-                   # splitTime = splitTime, not used for now
                    eraCollapseSize = eraCollapseSize,
                    combinationWindow = combinationWindow,
                    minPostCombinationDuration = minPostCombinationDuration,
@@ -83,7 +83,68 @@ create_analysis_settings <- function(database,
                    minCellMethod = minCellMethod,
                    groupCombinations = groupCombinations,
                    addNoPaths = addNoPaths,
+                   strata = strata,
                    outputFolder = outputFolder), class = "DrugUtilizationAnalysisSettings")
 
   return(settings)
+}
+
+#' A function to create an age strata
+#'
+#' @param name the name of the strata
+#' @param op the operator for the strata
+#' @param value the value for the age strata
+#' @return an age strata object
+#' @export
+create_age_stratification <- function(name, op, value) {
+  structure(list(name = name,
+             op = op,
+             value = value), class = "ageStrata")
+}
+
+#' A function to create a date strata
+#'
+#' @param name the name of the strata
+#' @param op the operator for the strata
+#' @param value the value for the date strata
+#' @return a date strata object
+#' @export
+create_date_stratification <- function(name, op, value) {
+  structure(list(name = name,
+                 op = op,
+                 value = value), class = "dateStrata")
+}
+
+#' A function to create a concept strata
+#'
+#' @param name the name of the strata
+#' @param concept the OMOP concept id for the strata
+#' @return a concept strata object
+#' @export
+create_concept_stratification <- function(name,
+                                          domain,
+                                          concept) {
+  structure(list(name = name,
+                 domain = domain,
+             concept = concept), class = "conceptStrata")
+}
+
+#' #' A function to create a cohort strata
+#' #'
+#' #' @param name the name of the strata
+#' #' @param concept the OMOP concept id for the strata
+#' #' @return a concept strata object
+#' #' @export
+#' create_cohort_stratification <- function(name,
+#'                                          cohort) {
+#'   structure(list(name = name, cohort = cohort), class = "cohortStrata")
+#' }
+
+#' A function to create strata list object
+#'
+#' @param ... a list of strata objects
+#' @return a strata list object
+#' @export
+stratification_list <- function(...){
+  structure(list(...), class = "strataList")
 }

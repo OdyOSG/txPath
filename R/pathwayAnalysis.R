@@ -3,7 +3,7 @@
 #' @param treatment_history the dataframe output from create_treatment_history
 #' @param analysisSettings a DrugUtilizationAnalysisSettings object that defines the elements of the analysis
 #' @return a PathwayAnalysis object with the treatment patterns and attrition
-#' @import magrittr
+#' @include utils.R
 #' @export
 create_treatment_patterns <- function(treatment_history,
                                       analysisSettings) {

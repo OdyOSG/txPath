@@ -6,7 +6,7 @@
 #' in config.yml of the active configuration
 #' @param cohortTable the name where the cohorts are stored in the results schema
 #' @param analysisSettings a DrugUtilizationAnalysisSettings object that defines the elements of the analysis
-#' @import magrittr
+#' @include utils.R
 #' @return a SurvivalAnalysis object containing the data for the survival
 #' analysis, the survfit object and the surv_summary object from survminer
 #' @export
@@ -66,6 +66,7 @@ create_survival_table <- function(treatment_history,
 #'
 #' @param survival_table a SurvivalAnalysis object with information about the survival analysis
 #' @param analysisSettings a DrugUtilizationAnalysisSettings object that defines the elements of the analysis
+#' @include utils.R
 #' @import usethis
 #' @export
 save_survival_table <- function(survival_table,
@@ -116,6 +117,7 @@ save_survival_table <- function(survival_table,
 #' @param type identify the treatment line type to display, Either single, only combinations or all lines
 #' @param selectTop display an integer number of lines of treatment to display in the kaplan meier plot
 #' @return a kaplan meier plot suing survminer. We implement the lancet color schema from ggsci
+#' @include utils.R
 #' @export
 plot_kaplan_meier <- function(survival_table,
                                type = c("Single", "Combinations", "All"),
