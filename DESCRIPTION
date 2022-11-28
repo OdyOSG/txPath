@@ -1,17 +1,15 @@
-Package: drugUtilizationMod
-Title: Module for Drug Utilization Studies in OHDSI
+Package: TxPath
+Title: Internal package for txPath based on TreatmentPatterns
 Version: 0.0.1
 Authors@R: 
-    person("Martin", "Lavallee", , "martin.lavallee@odysseusinc.com", role = c("aut", "cre"))
-Description: An R package that runs the necessary components of an OHDSI drug utilization study
+    person("George", "Argyriou", , "george.argyriou@odysseusinc.com ", role = c("aut", "cre")),
+    person("Martin", "Lavallee", , "martin.lavallee@odysseusinc.com", role = c("aut"))
+Description: An R package that conducts treatment patterns and time to discontinuation. This package is based on DARWIN TreatmentPatterns and borrows heavily from it. 
 License: Apache License (>= 2)
 Depends:
   R (>= 3.5.0),
-  DatabaseConnector (>= 4.0.0)
+  data.table (>= 1.14.0)
 Imports:
-    data.table,
-    magrittr,
-    usethis,
     dplyr,
     ggplot2,
     rlang,
@@ -21,14 +19,8 @@ Imports:
     withr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
-Remotes:
-  mi-erasmusmc/TreatmentPatterns
+RoxygenNote: 7.2.2
 Collate: 
-    'analysis_settings.R'
-    'stratafication.R'
-    'utils.R'
-    'createTreatmentHistory.R'
-    'drugUtilizationMod-package.R'
-    'pathwayAnalysis.R'
-    'timeToEventAnalysis.R'
+    'define.R'
+    'treatment_history.R'
+    'utils-pipe.R'
