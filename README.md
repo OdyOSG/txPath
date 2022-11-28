@@ -1,2 +1,2 @@
-# drugUtilizationMod
-an ohdsi module for drug utilization studies
+# txPath
+an internal odysseus tool for running treatment pattern studies
