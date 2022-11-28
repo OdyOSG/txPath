@@ -1,22 +1,11 @@
-Package: TxPath
-Title: Internal package for txPath based on TreatmentPatterns
-Version: 0.0.1
-Authors@R: 
-    person("George", "Argyriou", , "george.argyriou@odysseusinc.com ", role = c("aut", "cre")),
-    person("Martin", "Lavallee", , "martin.lavallee@odysseusinc.com", role = c("aut"))
-Description: An R package that conducts treatment patterns and time to discontinuation. This package is based on DARWIN TreatmentPatterns and borrows heavily from it. 
+Package: txPath
+Title: Run Treatment Pattern Analysis
+Version: 0.0.0.9000
+Authors@R: c(
+    person("George", "Argyriou", email = "george.argyriou@odysseusinc.com", role = c("aut", "cre")),
+    person("Martin", "Lavallee", email = "martin.lavallee@odysseusinc.com", role = "aut"))
+Description: Internal odysseus package to run treatment patterns
 License: Apache License (>= 2)
-Depends:
-  R (>= 3.5.0),
-  data.table (>= 1.14.0)
-Imports:
-    dplyr,
-    ggplot2,
-    rlang,
-    lifecycle,
-    cli,
-    glue,
-    withr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.2
