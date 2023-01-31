@@ -75,6 +75,8 @@ createTestCdm <- function(n = NULL) {
 #' cohort table and an event cohort table.
 #' @param targetCohortTable The name of the target cohort table
 #' @param eventCohortTable The name of the event cohort table
+#' @param periodPriorToIndex The number of days prior to index to look for event
+#' cohort start dates.
 #' @param verbose Should progress messages be printed?
 #' @param maxIterations Maximum number of iterations to allow for collapse algorithm
 #' @param minEraDuration  Minimum time an event era or combination

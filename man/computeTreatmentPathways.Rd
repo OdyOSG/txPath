@@ -23,6 +23,9 @@ cohort table and an event cohort table.}
 
 \item{eventCohortTable}{The name of the event cohort table}
 
+\item{periodPriorToIndex}{The number of days prior to index to look for event
+cohort start dates.}
+
 \item{minEraDuration}{Minimum time an event era or combination}
 
 \item{eraCollapseSize}{Maximum time interval between treatments
