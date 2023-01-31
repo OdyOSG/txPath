@@ -1,3 +1,14 @@
+# Test cases: Allen's interval algebra
+# https://en.wikipedia.org/wiki/Allen%27s_interval_algebra
+
+# A equals B
+# A precedes B
+# A meets B
+# A overlaps with B
+# A starts B
+# A contains B
+# A is finished by B
+
 test_that("test case: A is equal to B", {
 
   con <- DBI::dbConnect(duckdb::duckdb(), CDMConnector::eunomia_dir())
@@ -36,3 +47,5 @@ test_that("test case: A is equal to B", {
 
   DBI::dbDisconnect(con, shutdown = TRUE)
 })
+
+
