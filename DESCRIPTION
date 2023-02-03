@@ -2,9 +2,8 @@ Package: txPath
 Title: Run Treatment Pattern Analysis
 Version: 1.0.0
 Authors@R: c(
-    person("George", "Argyriou", email = "george.argyriou@odysseusinc.com", role = c("aut", "cre")),
-    person("Martin", "Lavallee", email = "martin.lavallee@odysseusinc.com", role = "aut"),
-    person("Adam", "Black", email = "adam.black@odysseusinc.com", role = "aut"))
+    person("Adam", "Black", email = "adam.black@odysseusinc.com", role = c("aut", "cre")),
+    person("Martin", "Lavallee", email = "martin.lavallee@odysseusinc.com", role = "aut"))
 Description: Compute treatment patterns on a database in the OMOP Common
     Data Model format.
 License: Apache License (>= 2)
