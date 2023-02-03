@@ -249,28 +249,37 @@ collapseEras <- function(preprocessed, minEraDuration = 0) {
                   event_id_overlap = paste(.data$event_id_a, .data$event_id_b, sep = "-")) %>%
     dplyr::ungroup() %>%
     dplyr::distinct() %>%
+    dplyr::mutate(start_overlap_minus1 = !!CDMConnector::dateadd("start_overlap", -1L),
+                  end_overlap_plus1 = !!CDMConnector::dateadd("end_overlap", 1L),
+                  end_a_plus1 = !!CDMConnector::dateadd("end_a", 1L),
+                  start_b_minus1 = !!CDMConnector::dateadd("start_b", -1L)) %>%
     dplyr::mutate(
       new_start_a = dplyr::case_when(
-        .data$start_a == .data$start_b ~ NA,
+        .data$start_a == .data$start_b ~ NA, # no era A before overlap
         TRUE ~ .data$start_a),
       new_end_a = dplyr::case_when(
-        .data$start_a == .data$start_b ~ NA,
-        TRUE ~ .data$start_overlap
+        .data$start_a == .data$start_b ~ NA, # no era A before overlap
+        .data$overlap < .env$minEraDuration ~ .data$start_b_minus1, # overlap is not long enough to be counted as a combo
+        TRUE ~ .data$start_overlap_minus1 # there is an overlap after era A
       ),
-      # start and end overlap are unchanged
+      # need to adjust start and end dates of A and B
+      # start and end of overlap are unchanged
       new_start_b = dplyr::case_when(
-        .data$end_b > .data$end_overlap ~ .data$end_overlap,
-        .data$end_a > .data$end_overlap ~ .data$end_overlap,
-        TRUE ~ NA
+        .data$end_a == .data$end_b ~ NA, # no era B after overlap
+        .data$overlap < .env$minEraDuration ~ .data$start_b, # overlap is not long enough to be a combo
+        TRUE ~ .data$end_overlap_plus1
       ),
       new_end_b = dplyr::case_when(
+        .data$end_a == .data$end_b ~ NA, # no era B after overlap
         .data$end_b > .data$end_overlap ~ .data$end_b,
-        .data$end_a > .data$end_overlap ~ .data$end_a,
+        .data$end_a > .data$end_overlap ~ .data$end_a, # TODO in this case do we need to adjust the event_b_id?
         TRUE ~ NA
       )
     ) %>%
     dplyr::arrange(.data$cohort_definition_id, .data$subject_id) %>%
     CDMConnector::computeQuery()
+
+  # combos should no longer contain overlaps
 
   output <- list(
     dplyr::filter(qry, .data$filter_flag == 0L) %>% dplyr::select(-"filter_flag"),
