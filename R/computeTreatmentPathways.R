@@ -26,24 +26,22 @@ createTestCdm <- function(n = NULL) {
                   cohort_definition_id = "drug_concept_id",
                   cohort_start_date = "drug_era_start_date",
                   cohort_end_date = "drug_era_end_date") %>%
-    dplyr::select(.data$cohort_definition_id,
-                  .data$subject_id,
-                  .data$cohort_start_date,
-                  .data$cohort_end_date)
+    dplyr::select("cohort_definition_id",
+                  "subject_id",
+                  "cohort_start_date",
+                  "cohort_end_date")
 
   cdm$target_cohort <- cdm$concept_ancestor %>%
     dplyr::filter(.data$ancestor_concept_id %in% c(192671)) %>% # GI Bleed
-    dplyr::select(condition_concept_id = .data$descendant_concept_id) %>%
+    dplyr::select(condition_concept_id = "descendant_concept_id") %>%
     dplyr::inner_join(cdm$condition_occurrence, by = c("condition_concept_id")) %>%
-    dplyr::select(cohort_definition_id = 1,
-                  .data$person_id,
-                  cohort_start_date = .data$condition_start_date) %>%
+    dplyr::select(cohort_definition_id = 1,"person_id", cohort_start_date = "condition_start_date") %>%
     dplyr::inner_join(cdm$observation_period, by = "person_id") %>%
     dplyr::filter(.data$cohort_start_date < .data$observation_period_end_date) %>%
-    dplyr::select(.data$cohort_definition_id,
-                  subject_id = .data$person_id,
-                  .data$cohort_start_date,
-                  cohort_end_date = .data$observation_period_end_date)
+    dplyr::select("cohort_definition_id",
+                  subject_id = "person_id",
+                  "cohort_start_date",
+                  cohort_end_date = "observation_period_end_date")
 
   if (!is.null(n)) {
     ids <- dplyr::intersect(
@@ -95,25 +93,25 @@ computeTreatmentPathways <- function(cdm,
                                      periodPriorToIndex = 0,
                                      minEraDuration = 0,
                                      eraCollapseSize = 1,
-                                     verbose = TRUE,
+                                     verbose = FALSE,
                                      maxIterations = 1000) {
 
   # preprocess
   event_cohorts_filtered <- cdm[[eventCohortTable]] %>%
-    dplyr::rename(event_id = .data$cohort_definition_id,
-                  event_start_date = .data$cohort_start_date,
-                  event_end_date = .data$cohort_end_date) %>%
+    dplyr::rename(event_id = "cohort_definition_id",
+                  event_start_date = "cohort_start_date",
+                  event_end_date = "cohort_end_date") %>%
     dplyr::inner_join(cdm[[targetCohortTable]], by = "subject_id") %>%
     dplyr::mutate(lookback_date = !!CDMConnector::dateadd("cohort_start_date", periodPriorToIndex)) %>%
     dplyr::filter(.data$event_start_date >= .data$lookback_date) %>%
-    dplyr::select(.data$cohort_definition_id,
-                  .data$subject_id,
-                  .data$cohort_start_date,
-                  .data$cohort_end_date,
-                  .data$lookback_date,
-                  .data$event_id,
-                  .data$event_start_date,
-                  .data$event_end_date) %>%
+    dplyr::select("cohort_definition_id",
+                  "subject_id",
+                  "cohort_start_date",
+                  "cohort_end_date",
+                  "lookback_date",
+                  "event_id",
+                  "event_start_date",
+                  "event_end_date") %>%
     dplyr::distinct() %>%
     dplyr::arrange(.data$cohort_definition_id,
                    .data$subject_id,
@@ -140,13 +138,13 @@ computeTreatmentPathways <- function(cdm,
   # TODO give user option to inspect the trace
   preprocessed <- trace %>%
     dplyr::mutate(event_id = as.character(as.integer(.data$event_id))) %>%
-    dplyr::select(.data$cohort_definition_id,
-                  .data$subject_id,
-                  .data$cohort_start_date,
-                  .data$cohort_end_date,
-                  .data$event_id,
-                  event_start_date = .data$new_event_start_date,
-                  event_end_date = .data$new_event_end_date) %>%
+    dplyr::select("cohort_definition_id",
+                  "subject_id",
+                  "cohort_start_date",
+                  "cohort_end_date",
+                  "event_id",
+                  event_start_date = "new_event_start_date",
+                  event_end_date = "new_event_end_date") %>%
     dplyr::distinct() %>%
     CDMConnector::computeQuery()
 
@@ -193,14 +191,14 @@ collapseEras <- function(preprocessed, minEraDuration = 0) {
       dplyr::lead(.data$row_flag, order_by = c(.data$event_start_date, .data$event_end_date)) == 1L ~ 1L,
       TRUE ~ 0L)) %>%
     dplyr::arrange(.data$cohort_definition_id, .data$subject_id, .data$event_start_date, .data$event_end_date) %>%
-    dplyr::select(.data$cohort_definition_id,
-                  .data$subject_id,
-                  .data$cohort_start_date,
-                  .data$cohort_end_date,
-                  .data$event_id,
-                  .data$event_start_date,
-                  .data$event_end_date,
-                  .data$filter_flag) %>%
+    dplyr::select("cohort_definition_id",
+                  "subject_id",
+                  "cohort_start_date",
+                  "cohort_end_date",
+                  "event_id",
+                  "event_start_date",
+                  "event_end_date",
+                  "filter_flag") %>%
     dplyr::ungroup() %>%
     CDMConnector::computeQuery()
 
@@ -240,10 +238,10 @@ collapseEras <- function(preprocessed, minEraDuration = 0) {
       end_b = dplyr::lead(.data$event_end_date,
                           order_by = c(.data$event_start_date, .data$event_end_date))) %>%
     dplyr::filter(!is.na(.data$event_id_b)) %>%
-    dplyr::select(.data$cohort_definition_id,
-                  .data$subject_id,
-                  .data$cohort_start_date,
-                  .data$cohort_end_date,
+    dplyr::select("cohort_definition_id",
+                  "subject_id",
+                  "cohort_start_date",
+                  "cohort_end_date",
                   dplyr::matches("_(a|b|overlap)$")) %>%
     dplyr::mutate(overlap = !!CDMConnector::datediff("start_overlap", "end_overlap"),
                   event_id_overlap = paste(.data$event_id_a, .data$event_id_b, sep = "-")) %>%
@@ -284,31 +282,31 @@ collapseEras <- function(preprocessed, minEraDuration = 0) {
   output <- list(
     dplyr::filter(qry, .data$filter_flag == 0L) %>% dplyr::select(-"filter_flag"),
     dplyr::select(combos,
-                  .data$cohort_definition_id,
-                  .data$subject_id,
-                  .data$cohort_start_date,
-                  .data$cohort_end_date,
-                  event_id = .data$event_id_a,
-                  event_start_date = .data$new_start_a,
-                  event_end_date = .data$new_end_a) %>%
+                  "cohort_definition_id",
+                  "subject_id",
+                  "cohort_start_date",
+                  "cohort_end_date",
+                  event_id = "event_id_a",
+                  event_start_date = "new_start_a",
+                  event_end_date = "new_end_a") %>%
       dplyr::filter(!!CDMConnector::datediff("event_start_date", "event_end_date") >= .env$minEraDuration),
     dplyr::select(combos,
-                  .data$cohort_definition_id,
-                  .data$subject_id,
-                  .data$cohort_start_date,
-                  .data$cohort_end_date,
-                  event_id = .data$event_id_b,
-                  event_start_date = .data$new_start_b,
-                  event_end_date = .data$new_end_b) %>%
+                  "cohort_definition_id",
+                  "subject_id",
+                  "cohort_start_date",
+                  "cohort_end_date",
+                  event_id = "event_id_b",
+                  event_start_date = "new_start_b",
+                  event_end_date = "new_end_b") %>%
       dplyr::filter(!!CDMConnector::datediff("event_start_date", "event_end_date") >= .env$minEraDuration),
     dplyr::select(combos,
-                  .data$cohort_definition_id,
-                  .data$subject_id,
-                  .data$cohort_start_date,
-                  .data$cohort_end_date,
-                  event_id = .data$event_id_overlap,
-                  event_start_date = .data$start_overlap,
-                  event_end_date = .data$end_overlap) %>%
+                  "cohort_definition_id",
+                  "subject_id",
+                  "cohort_start_date",
+                  "cohort_end_date",
+                  event_id = "event_id_overlap",
+                  event_start_date = "start_overlap",
+                  event_end_date = "end_overlap") %>%
       dplyr::filter(!!CDMConnector::datediff("event_start_date", "event_end_date") >= .env$minEraDuration)
     ) %>%
     purrr::reduce(dplyr::union) %>%

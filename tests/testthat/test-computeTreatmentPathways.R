@@ -33,7 +33,8 @@ test_that("case: A is equal to B", {
   DBI::dbWriteTable(con, "event_cohort", event_cohort)
 
   cdm <- CDMConnector::cdm_from_con(con,
-                                    "main",
+                                    cdm_schema = "main",
+                                    write_schema = "main",
                                     cohort_tables = c("target_cohort", "event_cohort"))
 
   cdm <- computeTreatmentPathways(cdm, "target_cohort", "event_cohort")
@@ -79,7 +80,8 @@ test_that("case: A precedes B", {
   DBI::dbWriteTable(con, "event_cohort", event_cohort)
 
   cdm <- CDMConnector::cdm_from_con(con,
-                                    "main",
+                                    cdm_schema = "main",
+                                    write_schema = "main",
                                     cohort_tables = c("target_cohort", "event_cohort"))
 
   cdm <- computeTreatmentPathways(cdm, "target_cohort", "event_cohort")
@@ -125,7 +127,8 @@ test_that("case: A meets B", {
   DBI::dbWriteTable(con, "event_cohort", event_cohort)
 
   cdm <- CDMConnector::cdm_from_con(con,
-                                    "main",
+                                    cdm_schema = "main",
+                                    write_schema = "main",
                                     cohort_tables = c("target_cohort", "event_cohort"))
 
   cdm <- computeTreatmentPathways(cdm, "target_cohort", "event_cohort")
@@ -182,7 +185,8 @@ test_that("case: A overlaps B", {
   DBI::dbWriteTable(con, "event_cohort", event_cohort)
 
   cdm <- CDMConnector::cdm_from_con(con,
-                                    "main",
+                                    cdm_schema = "main",
+                                    write_schema = "main",
                                     cohort_tables = c("target_cohort", "event_cohort"))
 
   cdm <- computeTreatmentPathways(cdm, "target_cohort", "event_cohort")
@@ -239,7 +243,8 @@ test_that("case: A starts B", {
   DBI::dbWriteTable(con, "event_cohort", event_cohort)
 
   cdm <- CDMConnector::cdm_from_con(con,
-                                    "main",
+                                    cdm_schema = "main",
+                                    write_schema = "main",
                                     cohort_tables = c("target_cohort", "event_cohort"))
 
   cdm <- computeTreatmentPathways(cdm, "target_cohort", "event_cohort")
@@ -295,7 +300,8 @@ test_that("case: A contains B", {
   DBI::dbWriteTable(con, "event_cohort", event_cohort)
 
   cdm <- CDMConnector::cdm_from_con(con,
-                                    "main",
+                                    cdm_schema = "main",
+                                    write_schema = "main",
                                     cohort_tables = c("target_cohort", "event_cohort"))
 
   cdm <- computeTreatmentPathways(cdm, "target_cohort", "event_cohort")
@@ -351,7 +357,8 @@ test_that("case: A is finished by B", {
   DBI::dbWriteTable(con, "event_cohort", event_cohort)
 
   cdm <- CDMConnector::cdm_from_con(con,
-                                    "main",
+                                    cdm_schema = "main",
+                                    write_schema = "main",
                                     cohort_tables = c("target_cohort", "event_cohort"))
 
   cdm <- computeTreatmentPathways(cdm, "target_cohort", "event_cohort")
