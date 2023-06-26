@@ -1,12 +1,28 @@
 Package: txPath
 Title: Run Treatment Pattern Analysis
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: c(
-    person("George", "Argyriou", email = "george.argyriou@odysseusinc.com", role = c("aut", "cre")),
+    person("Adam", "Black", email = "adam.black@odysseusinc.com", role = c("aut", "cre")),
     person("Martin", "Lavallee", email = "martin.lavallee@odysseusinc.com", role = "aut"))
-Description: Internal odysseus package to run treatment patterns
+Description: Compute treatment patterns on a database in the OMOP Common
+    Data Model format.
 License: Apache License (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
+Imports: 
+    CDMConnector,
+    dplyr,
+    magrittr,
+    DBI,
+    duckdb,
+    checkmate,
+    glue,
+    rlang,
+    purrr,
+    dbplyr
+Suggests: 
+    testthat (>= 3.0.0),
+    tibble
+Config/testthat/edition: 3
 
