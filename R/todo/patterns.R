@@ -100,19 +100,19 @@ findPatterns <- function(th, minNumPatterns = 30) {
   sankeyDat <- prepSankey(treatment_pathways)
 
   #clean patterns
-  clean <- treatment_pathways %>%
-    dplyr::select(-End) %>%
-    dplyr::arrange(dplyr::desc(n)) %>%
-    dplyr::mutate(seq = paste(event_cohort_name1, event_cohort_name2, event_cohort_name3)) %>%
-    dplyr::mutate(seq = gsub(" NA", "", seq),
-           seq = gsub(" ", " -> ", seq)) %>%
-    dplyr::select(seq, n)
+  # clean <- treatment_pathways %>%
+  #   dplyr::select(-End) %>%
+  #   dplyr::arrange(dplyr::desc(n)) %>%
+  #   dplyr::mutate(seq = paste(event_cohort_name1, event_cohort_name2, event_cohort_name3)) %>%
+  #   dplyr::mutate(seq = gsub(" NA", "", seq),
+  #          seq = gsub(" ", " -> ", seq)) %>%
+  #   dplyr::select(seq, n)
 
 
   ll <- structure(
     list(
       'sankey' = sankeyDat,
-      'treatmentPatterns' = clean,
+      'treatmentPatterns' = treatment_pathways,
       'attrition' = attrition
     ), class = "treatmentPatterns"
   )
